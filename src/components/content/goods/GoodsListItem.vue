@@ -1,7 +1,7 @@
 <template>
   <div class="goods-item" @click="goodsItemClick">
     <a :href="goodsitem.link"></a>
-    <img :src="goodsitem.show.img" alt="" @load="itemImageLoad" />
+    <img :src="showImage" alt="" @load="itemImageLoad" />
     <div class="goods-info">
       <p>{{ goodsitem.title }}</p>
       <span class="price">{{ goodsitem.price }}</span>
@@ -33,6 +33,13 @@ export default {
 
       //第二种思路 使用mixin混入
       this.$bus.$emit("itemImageLoad");
+    },
+  },
+  computed: {
+    showImage() {
+      return this.goodsitem.show
+        ? this.goodsitem.show.img
+        : this.goodsitem.image;
     },
   },
 };

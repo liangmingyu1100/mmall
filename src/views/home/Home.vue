@@ -44,7 +44,6 @@ const Scroll = () => import("components/common/scroll/Scroll");
 // 业务组件
 const TabControl = () => import("components/content/tabcontrol/TabControl");
 const GoodsList = () => import("components/content/goods/GoodsList");
-const BackTop = () => import("components/content/backtop/BackTop");
 
 // 主页特有组件
 const HomeSwiper = () => import("./childrenComps/HomeSwiper");
@@ -53,6 +52,8 @@ const HomeFeature = () => import("./childrenComps/HomeFeature");
 
 // 网络封装
 import { getMultipdata, getGoodsData } from "network/home.js";
+
+import { backTopMixin } from "common/mixin.js";
 
 export default {
   data() {
@@ -74,7 +75,6 @@ export default {
         },
       },
       currentType: "pop",
-      isShowBackTop: false,
       tabOffsetTop: 0,
       isFixedTab: false,
       saveY: 0,
@@ -94,7 +94,6 @@ export default {
     HomeSwiper, // 轮播图
     HomeRecommendView,
     HomeFeature,
-    BackTop,
   },
   methods: {
     /*
@@ -116,12 +115,10 @@ export default {
       this.$refs.tabControl1.currentIndex = index;
       this.$refs.tabControl2.currentIndex = index;
     },
-    backClick() {
-      this.$refs.scroll.scrollTo(0, 0);
-    },
+
     contentScroll(position) {
       // 判断backtop是否显示
-      this.isShowBackTop = -position.y > 1000;
+      this.showBackTop(position);
       // 决定tabControl是否显示
       this.isFixedTab = -position.y > this.tabOffsetTop;
     },
@@ -132,6 +129,7 @@ export default {
     },
     imageLoad() {
       this.tabOffsetTop = this.$refs.tabControl2.$el.offsetTop;
+      console.log(this.tabOffsetTop);
     },
 
     /*
@@ -177,11 +175,11 @@ export default {
     this.saveY = this.$refs.scroll.getScrollY();
     // 首页处于不活跃状态下关闭轮播图定时器
     this.$nextTick(() => {
-      console.log(this.$refs.homeSwiper);
       // 首页处于活跃状态下开启轮播图定时器
       this.$refs.homeSwiper && this.$refs.homeSwiper.stopTimer();
     });
   },
+  mixins: [backTopMixin],
 };
 </script>
 <style scoped>

@@ -54,6 +54,7 @@ export default {
       swiperStyle: {}, // swiper样式
       currentIndex: 1, // 当前的index
       scrolling: false, // 是否正在滚动
+      hashandledDom: false, //对操作dom进行节流
     };
   },
   mounted: function () {
@@ -132,13 +133,14 @@ export default {
      * 操作DOM, 在DOM前后添加Slide
      */
     handleDom: function () {
+      // 如果已经正确获取过元素的个数则不再向下进行
+      if (this.hashandledDom) return;
       // 1.获取要操作的元素
       let swiperEl = document.querySelector(".swiper");
       let slidesEls = swiperEl.getElementsByClassName("slide");
 
       // 2.保存个数
       this.slideCount = slidesEls.length;
-
       // 3.如果大于1个, 那么在前后分别添加一个slide
       if (this.slideCount > 1) {
         let cloneFirst = slidesEls[0].cloneNode(true);
@@ -147,6 +149,7 @@ export default {
         swiperEl.appendChild(cloneFirst);
         this.totalWidth = swiperEl.offsetWidth;
         this.swiperStyle = swiperEl.style;
+        this.hashandledDom = true;
       }
 
       // 4.让swiper元素, 显示第一个(目前是显示前面添加的最后一个元素)

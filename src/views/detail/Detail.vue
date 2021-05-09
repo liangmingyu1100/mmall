@@ -1,16 +1,24 @@
 <template>
   <div id="detail">
-    <detail-nav-bar class="detail-nav-bar"></detail-nav-bar>
-    <scroll class="content" ref="scroll">
-      <detail-swiper :top-images="topImages" />
+    <detail-nav-bar
+      class="detail-nav-bar"
+      @titleClick="titleClick"
+      ref="navBar"
+    ></detail-nav-bar>
+    <scroll class="content" ref="scroll" @scroll="contentScroll">
+      <detail-swiper :top-images="topImages" ref="swiper" />
       <detail-base-info :goods="goods" />
-      <detail-shop-info :shop="shop"></detail-shop-info>
+      <detail-shop-info :shop="shop" />
       <detail-goods-info
         :detailInfo="detailInfo"
         @imageLoad="imageLoad"
       ></detail-goods-info>
-      <detail-param-info :goods-param="paramInfo"></detail-param-info>
+      <detail-param-info :goods-param="paramInfo" ref="paramInfo" />
+      <detail-comment-info :comment-info="commentInfo" ref="commentInfo" />
+      <goods-list :goods="recommendGoods" ref="recommend" />
     </scroll>
+    <detail-bottom-bar />
+    <back-top @click.native="backClick" v-show="isShowBackTop" />
   </div>
 </template>
 <script>
@@ -20,10 +28,22 @@ const DetailBaseInfo = () => import("./childrenComps/DetailBaseInfo");
 const DetailShopInfo = () => import("./childrenComps/DetailShopInfo");
 const DetailGoodsInfo = () => import("./childrenComps/DetailGoodsInfo");
 const DetailParamInfo = () => import("./childrenComps/DetailParamInfo");
+const DetailCommentInfo = () => import("./childrenComps/DetailCommentInfo");
+const DetailBottomBar = () => import("./childrenComps/DetailBottomBar");
+
+const GoodsList = () => import("components/content/goods/GoodsList");
 
 const Scroll = () => import("components/common/scroll/Scroll");
 
-import { getDetailData, Goods, Shop, GoodsParam } from "network/detail.js";
+import { backTopMixin } from "common/mixin.js";
+
+import {
+  getDetailData,
+  getRecommendData,
+  Goods,
+  Shop,
+  GoodsParam,
+} from "network/detail.js";
 
 export default {
   // 这里的名字用来 keepalive的exclude属性匹配
@@ -36,6 +56,9 @@ export default {
       shop: {},
       detailInfo: {},
       paramInfo: {},
+      commentInfo: [],
+      recommendGoods: [],
+      scrollHight: 0, //记录滚动的高度
     };
   },
   components: {
@@ -45,6 +68,9 @@ export default {
     DetailShopInfo,
     DetailGoodsInfo,
     DetailParamInfo,
+    DetailCommentInfo,
+    DetailBottomBar,
+    GoodsList,
     Scroll,
   },
   created() {
@@ -70,13 +96,56 @@ export default {
         result.itemParams.info,
         result.itemParams.rule
       );
+      // 6.获取评论信息
+      if (result.rate.cRate != 0) {
+        this.commentInfo = result.rate.list;
+      }
+    });
+    getRecommendData().then((res) => {
+      console.log(res);
+      // 7.获取推荐商品的信息
+      this.recommendGoods = res.data.data.list;
     });
   },
   methods: {
     imageLoad() {
       this.$refs.scroll.refresh();
     },
+    //点击主题导航让scroll滚动到指定位置
+    titleClick(index) {
+      switch (index) {
+        case 0:
+          this.scrollHight = this.$refs.swiper.$el.offsetTop;
+          break;
+        case 1:
+          this.scrollHight = this.$refs.paramInfo.$el.offsetTop;
+          break;
+        case 2:
+          this.scrollHight = this.$refs.commentInfo.$el.offsetTop;
+          break;
+        case 3:
+          this.scrollHight = this.$refs.recommend.$el.offsetTop;
+          break;
+      }
+      this.$refs.scroll.scrollTo(0, -this.scrollHight, 1000);
+    },
+    contentScroll(position) {
+      // 滑动scroll与导航相联
+      let y = position.y;
+      if (y <= -this.$refs.recommend.$el.offsetTop) {
+        this.$refs.navBar.currentIndex = 3;
+      } else if (y <= -this.$refs.commentInfo.$el.offsetTop) {
+        this.$refs.navBar.currentIndex = 2;
+      } else if (y <= -this.$refs.paramInfo.$el.offsetTop) {
+        this.$refs.navBar.currentIndex = 1;
+      } else {
+        this.$refs.navBar.currentIndex = 0;
+      }
+      // 判断backtop是否显示
+      this.showBackTop(position);
+    },
   },
+  mixins: [backTopMixin],
 };
 </script>
 <style scoped>
@@ -86,14 +155,17 @@ export default {
   z-index: 9;
 }
 .detail-nav-bar {
-  position: relative;
-  z-index: 999;
+  box-shadow: 0 0 1px rgba(0, 0, 0, 0.1);
   background-color: #fff;
 }
 .content {
-  height: calc(100% - 44px);
-  position: relative;
-  z-index: 99;
+  position: absolute;
+  top: 45px;
+  left: 0;
+  right: 0;
+  bottom: 49px;
+  /* z-index: 99; */
   background-color: #fff;
+  overflow: hidden;
 }
 </style>

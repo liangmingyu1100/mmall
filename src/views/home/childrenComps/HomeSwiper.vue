@@ -3,7 +3,7 @@
     <swiper ref="swiper">
       <swiper-item v-for="(item, index) in banners" :key="index">
         <a :href="item.link">
-          <img :src="item.image" alt="" />
+          <img :src="item.image" alt="" @load="imageLoad" />
         </a>
       </swiper-item>
     </swiper>
@@ -13,6 +13,8 @@
 // 这里不能用懒加载
 // const { Swiper, SwiperItem } = () => import("components/common/swiper");
 import { Swiper, SwiperItem } from "components/common/swiper";
+// 混入
+import { swiperImageListenermixin } from "common/mixin.js";
 export default {
   props: {
     banners: {
@@ -21,9 +23,6 @@ export default {
         return [];
       },
     },
-  },
-  data() {
-    return {};
   },
   components: {
     Swiper,
@@ -37,5 +36,6 @@ export default {
       this.$refs.swiper.startTimer();
     },
   },
+  mixins: [swiperImageListenermixin],
 };
 </script>

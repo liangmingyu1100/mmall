@@ -1,4 +1,5 @@
 import { instance2 } from './request'
+// 获取详情页数据
 export function getDetailData(iid) {
   return instance2({
     url: '/detail',
@@ -7,6 +8,13 @@ export function getDetailData(iid) {
     }
   })
 }
+
+export function getRecommendData() {
+  return instance2({
+    url: '/recommend',
+  })
+}
+
 // 定义商品类
 export class Goods {
   constructor(itemInfo, columns, services) {
