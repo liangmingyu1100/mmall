@@ -14,5 +14,15 @@ export default {
         resolve('√该商品成功加入购物车');
       }
     })
+  },
+  removeFromCart(context, paylay) {
+    return new Promise((resolve, reject) => {
+      if (paylay) {
+        context.commit('removeFromCart', paylay)
+        resolve('成功移除商品');
+      } else {
+        resolve('请选择需要移除购物车的商品');
+      }
+    })
   }
 }

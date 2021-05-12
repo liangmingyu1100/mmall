@@ -29,10 +29,13 @@ export default {
     SwiperItem,
   },
   methods: {
+    // 解决详情页不能每次获取到轮播图数据的问题
     stopTimer() {
+      // 停止轮播图的定时器
       this.$refs.swiper.stopTimer();
     },
     startTimer() {
+      // 开启轮播图的定时器
       this.$refs.swiper.startTimer();
     },
   },

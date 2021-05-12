@@ -16,23 +16,23 @@ export default {
   props: {
     titles: {
       type: Array,
-      default () {
-        return []
-      }
-    }
+      default() {
+        return [];
+      },
+    },
   },
-  data () {
+  data() {
     return {
-      currentIndex: 0
-    }
+      currentIndex: 0,
+    };
   },
   methods: {
-    tabClick (index) {
-      this.currentIndex = index
-      this.$emit('tabClick', index)
-    }
-  }
-}
+    tabClick(index) {
+      this.currentIndex = index;
+      this.$emit("tabClick", index);
+    },
+  },
+};
 </script>
 <style scoped>
 .tab-control {

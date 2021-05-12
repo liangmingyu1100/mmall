@@ -8,7 +8,7 @@ import getters from './getters'
 
 
 // 1.安装vuex
-Vue.use(Vuex)
+Vue.use(Vuex);
 
 // 2.创建store对象 
 // 3.导出store对象

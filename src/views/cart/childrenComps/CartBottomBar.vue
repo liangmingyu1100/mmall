@@ -8,28 +8,40 @@
       />
       <span>全选</span>
     </div>
-    <div class="totalPrice">
+    <div class="totalPrice" v-if="!isManage">
       合计:<span>￥{{ totalPrice }}</span>
     </div>
-    <div class="calculate" @click="calcClick">
+    <div class="calculate" @click="calcClick" v-if="!isManage">
       <span>结算({{ totalCount }})</span>
+    </div>
+    <div class="placeholder" v-if="isManage"></div>
+    <div class="remove" @click="removeClick" v-if="isManage">
+      <span>删除</span>
     </div>
   </div>
 </template>
 
 <script>
 import CheckButton from "components/common/checkbutton/CheckButton.vue";
-import { mapGetters } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 export default {
   data() {
-    return {};
+    return {
+      isManage: false,
+    };
   },
-
+  mounted() {
+    this.$bus &&
+      this.$bus.$on("manageClick", () => {
+        this.isManage = !this.isManage;
+      });
+  },
   components: {
     CheckButton,
   },
   create() {},
   methods: {
+    ...mapActions(["removeFromCart"]),
     allSelectClick() {
       if (this.isAllSelect) {
         this.cartList.forEach((item) => {
@@ -46,12 +58,22 @@ export default {
         this.$toast.show("请选择您要结算的商品");
       }
     },
+    removeClick() {
+      // this.$store.dispatch("removeFromCart", this.checkedProduct);
+      this.removeFromCart(this.checkedProduct).then((res) => {
+        this.$toast.show(res);
+      });
+    },
   },
   computed: {
-    ...mapGetters(["totalPrice", "totalCount", "cartList"]),
+    ...mapGetters(["totalPrice", "totalCount", "cartList", "checkedProduct"]),
     isAllSelect() {
       if (this.cartList.length === 0) return false;
       return !this.cartList.some((item) => !item.checked);
+    },
+    checkedProduct() {
+      if (this.cartList.length === 0) return 0;
+      return this.cartList.filter((item) => item.checked);
     },
   },
 };
@@ -75,7 +97,8 @@ export default {
 .allSelectButton {
   margin-right: 5px;
 }
-.totalPrice {
+.totalPrice,
+.placeholder {
   flex: 1;
   margin-right: 10px;
   text-align: right;
@@ -83,7 +106,8 @@ export default {
 .totalPrice span {
   color: var(--color-tint);
 }
-.calculate {
+.calculate,
+.remove {
   width: 80px;
   text-align: center;
   height: 40px;

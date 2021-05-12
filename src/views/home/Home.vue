@@ -87,13 +87,13 @@ export default {
     },
   },
   components: {
-    NavBar,
+    NavBar, // 导航条
     Scroll,
-    TabControl,
-    GoodsList, // 商品列表
-    HomeSwiper, // 轮播图
-    HomeRecommendView,
-    HomeFeature,
+    TabControl, // 商品类型切换
+    GoodsList, // 商品列表组件
+    HomeSwiper, // 轮播图组件
+    HomeRecommendView, // 好物推荐组件
+    HomeFeature, // 流行组件
   },
   methods: {
     /*
@@ -124,10 +124,13 @@ export default {
     },
     // 上拉加载更多
     loadMore() {
+      // 获取更多所选择的类型的商品信息
       this.getHomeGoodsData(this.currentType);
-      this.$refs.scroll.refresh(); // 重新加载高度
+      // 重新加载高度 避免卡顿
+      this.$refs.scroll.refresh();
     },
     imageLoad() {
+      // 获取tabControl组件的offsetTop的值
       this.tabOffsetTop = this.$refs.tabControl2.$el.offsetTop;
     },
 
@@ -141,8 +144,8 @@ export default {
       getGoodsData(type, page).then((res) => {
         // 获取数据后赋值到存放goods的list数组中
         this.goods[type].list.push(...res.data.data.list);
+        // 将页面数+1
         this.goods[type].page += 1;
-
         // 上拉加载动作结束, 触发下一次的上拉件。
         this.$refs.scroll && this.$refs.scroll.finishPullUp();
       });
@@ -151,10 +154,12 @@ export default {
   // 声明生命周期钩子函数created
   created() {
     getMultipdata().then((res) => {
-      // console.log(res);
+      // 获取banner的数据
       this.banners = res.data.data.banner.list;
+      // 获取recommends的数据
       this.recommends = res.data.data.recommend.list;
     });
+    // 获取每种类型的商品信息数据
     this.getHomeGoodsData("pop");
     this.getHomeGoodsData("new");
     this.getHomeGoodsData("sell");
@@ -174,6 +179,7 @@ export default {
       this.$refs.homeSwiper && this.$refs.homeSwiper.stopTimer();
     });
   },
+  // 混入
   mixins: [backTopMixin],
 };
 </script>

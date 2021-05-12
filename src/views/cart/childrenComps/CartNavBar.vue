@@ -2,6 +2,9 @@
   <div class="cart-nav-bar">
     <nav-bar>
       <div slot="center">购物车({{ cartListLength }})</div>
+      <div slot="right" @click="manageClick">
+        {{ isManage ? "完成" : "管理" }}
+      </div>
     </nav-bar>
   </div>
 </template>
@@ -11,10 +14,17 @@ import NavBar from "components/common/navbar/NavBar.vue";
 
 export default {
   data() {
-    return {};
+    return {
+      isManage: false,
+    };
   },
   create() {},
-  methods: {},
+  methods: {
+    manageClick() {
+      this.$bus && this.$bus.$emit("manageClick");
+      this.isManage = !this.isManage;
+    },
+  },
   components: {
     NavBar,
   },
