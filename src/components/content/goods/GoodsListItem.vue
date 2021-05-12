@@ -1,7 +1,7 @@
 <template>
   <div class="goods-item" @click="goodsItemClick">
     <a :href="goodsitem.link"></a>
-    <img :src="showImage" alt="" @load="itemImageLoad" />
+    <img v-lazy="showImage" alt="" @load="itemImageLoad" />
     <div class="goods-info">
       <p>{{ goodsitem.title }}</p>
       <span class="price">{{ goodsitem.price }}</span>
@@ -31,7 +31,7 @@ export default {
       //   this.$bus.$emit('DetailItemImageLoad')
       // }
 
-      //第二种思路 使用mixin混入
+      // 第二种思路 使用mixin混入
       this.$bus.$emit("itemImageLoad");
     },
   },

@@ -8,20 +8,20 @@
   </div>
 </template>
 <script>
-const GoodsListItem = () => import("./GoodsListItem");
+const GoodsListItem = () => import('./GoodsListItem')
 export default {
   props: {
     goods: {
       type: Array,
-      default() {
-        return [];
-      },
-    },
+      default () {
+        return []
+      }
+    }
   },
   components: {
-    GoodsListItem,
-  },
-};
+    GoodsListItem
+  }
+}
 </script>
 <style scoped>
 .goods {

@@ -44,7 +44,7 @@ export default {
       this.scroll && this.scroll.refresh();
     },
     //
-    //上拉加载动作结束, 触发下一次的上拉件
+    // 上拉加载动作结束, 触发下一次的上拉件
     finishPullUp() {
       this.scroll && this.scroll.finishPullUp();
     },
@@ -56,12 +56,10 @@ export default {
     // 这时候获取元素不用DOM操作获取 避免命名冲突
     // 使用vue 给我们提供的$refs
     //  this.$nextTick 是一个异步函数，为了确保 DOM 已经渲染
-    console.log(this.probeType);
     this.$nextTick(() => {
       this.scroll = new BScroll(this.$refs.wrapper, {
         observeDOM: true,
         mouseWheel: true,
-
         probeType: this.probeType,
         click: true,
         pullUpLoad: this.pullUpLoad,

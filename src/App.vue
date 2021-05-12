@@ -8,12 +8,12 @@
 </template>
 
 <script>
-const MainTabBar = () => import("components/content/maintabbar/MainTabBar.vue");
+const MainTabBar = () => import('components/content/maintabbar/MainTabBar.vue')
 export default {
   components: {
-    MainTabBar,
-  },
-};
+    MainTabBar
+  }
+}
 </script>
 <style scoped>
 @import url("assets/css/bass.css");

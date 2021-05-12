@@ -23,20 +23,20 @@
 
 <script>
 export default {
-  data() {
-    return {};
+  data () {
+    return {}
   },
   props: {
     goodsParam: {
       type: Object,
-      default() {
-        return {};
-      },
-    },
+      default () {
+        return {}
+      }
+    }
   },
-  create() {},
-  methods: {},
-};
+  create () {},
+  methods: {}
+}
 </script>
 <style scoped>
 .param-info {

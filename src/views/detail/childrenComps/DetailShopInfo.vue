@@ -41,25 +41,25 @@
 
 <script>
 export default {
-  data() {
-    return {};
+  data () {
+    return {}
   },
   props: {
     shop: {
       type: Object,
-      default() {
-        return {};
-      },
-    },
+      default () {
+        return {}
+      }
+    }
   },
-  create() {},
+  create () {},
   methods: {},
   filters: {
-    sellsCountFilter(value) {
-      return value > 10000 ? (value / 10000).toFixed(1) + "万" : value;
-    },
-  },
-};
+    sellsCountFilter (value) {
+      return value > 10000 ? (value / 10000).toFixed(1) + '万' : value
+    }
+  }
+}
 </script>
 <style scoped>
 .shop-info {

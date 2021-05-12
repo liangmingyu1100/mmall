@@ -26,16 +26,16 @@
 
 <script>
 export default {
-  name: "DetailBaseInfo",
+  name: 'DetailBaseInfo',
   props: {
     goods: {
       type: Object,
-      default() {
-        return {};
-      },
-    },
-  },
-};
+      default () {
+        return {}
+      }
+    }
+  }
+}
 </script>
 
 <style scoped>

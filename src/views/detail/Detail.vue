@@ -17,11 +17,24 @@
       <detail-comment-info :comment-info="commentInfo" ref="commentInfo" />
       <goods-list :goods="recommendGoods" ref="recommend" />
     </scroll>
-    <detail-bottom-bar />
+    <detail-bottom-bar @addCart="addCart" />
     <back-top @click.native="backClick" v-show="isShowBackTop" />
   </div>
 </template>
 <script>
+import { backTopMixin } from "common/mixin.js";
+
+// 导入mapActions辅助函数
+import { mapActions } from "vuex";
+
+import {
+  getDetailData,
+  getRecommendData,
+  Goods,
+  Shop,
+  GoodsParam,
+} from "network/detail.js";
+
 const DetailNavBar = () => import("./childrenComps/DetailNavBar");
 const DetailSwiper = () => import("./childrenComps/DetailSwiper");
 const DetailBaseInfo = () => import("./childrenComps/DetailBaseInfo");
@@ -34,16 +47,6 @@ const DetailBottomBar = () => import("./childrenComps/DetailBottomBar");
 const GoodsList = () => import("components/content/goods/GoodsList");
 
 const Scroll = () => import("components/common/scroll/Scroll");
-
-import { backTopMixin } from "common/mixin.js";
-
-import {
-  getDetailData,
-  getRecommendData,
-  Goods,
-  Shop,
-  GoodsParam,
-} from "network/detail.js";
 
 export default {
   // 这里的名字用来 keepalive的exclude属性匹配
@@ -58,7 +61,7 @@ export default {
       paramInfo: {},
       commentInfo: [],
       recommendGoods: [],
-      scrollHight: 0, //记录滚动的高度
+      scrollHight: 0, // 记录滚动的高度
     };
   },
   components: {
@@ -77,7 +80,7 @@ export default {
     this.iid = this.$route.params.iid;
 
     getDetailData(this.iid).then((res) => {
-      console.log(res);
+      // console.log(res);
       const result = res.data.result;
       // 1.获取轮播图图片数据
       this.topImages = result.itemInfo.topImages;
@@ -102,7 +105,7 @@ export default {
       }
     });
     getRecommendData().then((res) => {
-      console.log(res);
+      // console.log(res);
       // 7.获取推荐商品的信息
       this.recommendGoods = res.data.data.list;
     });
@@ -111,7 +114,7 @@ export default {
     imageLoad() {
       this.$refs.scroll.refresh();
     },
-    //点击主题导航让scroll滚动到指定位置
+    // 点击主题导航让scroll滚动到指定位置
     titleClick(index) {
       switch (index) {
         case 0:
@@ -127,11 +130,11 @@ export default {
           this.scrollHight = this.$refs.recommend.$el.offsetTop;
           break;
       }
-      this.$refs.scroll.scrollTo(0, -this.scrollHight, 1000);
+      this.$refs.scroll.scrollTo(0, -this.scrollHight, 300);
     },
     contentScroll(position) {
       // 滑动scroll与导航相联
-      let y = position.y;
+      const y = position.y;
       if (y <= -this.$refs.recommend.$el.offsetTop) {
         this.$refs.navBar.currentIndex = 3;
       } else if (y <= -this.$refs.commentInfo.$el.offsetTop) {
@@ -144,6 +147,18 @@ export default {
       // 判断backtop是否显示
       this.showBackTop(position);
     },
+    addCart() {
+      let product = {};
+      product.iid = this.iid;
+      product.img = this.topImages[0];
+      product.title = this.goods.title;
+      product.desc = this.goods.desc;
+      product.realPrice = this.goods.realPrice;
+      this.addToCart(product).then((res) => {
+        this.$toast.show(res);
+      });
+    },
+    ...mapActions(["addToCart"]),
   },
   mixins: [backTopMixin],
 };
@@ -155,16 +170,15 @@ export default {
   z-index: 9;
 }
 .detail-nav-bar {
-  box-shadow: 0 0 1px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.1);
   background-color: #fff;
 }
 .content {
   position: absolute;
-  top: 45px;
+  top: 46px;
   left: 0;
   right: 0;
   bottom: 49px;
-  /* z-index: 99; */
   background-color: #fff;
   overflow: hidden;
 }

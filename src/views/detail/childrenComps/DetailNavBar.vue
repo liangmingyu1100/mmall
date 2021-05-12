@@ -19,27 +19,27 @@
   </div>
 </template>
 <script>
-const NavBar = () => import("components/common/navbar/NavBar.vue");
+const NavBar = () => import('components/common/navbar/NavBar.vue')
 export default {
-  data() {
+  data () {
     return {
-      titles: ["商品", "参数", "评论", "推荐"],
-      currentIndex: 0,
-    };
+      titles: ['商品', '参数', '评论', '推荐'],
+      currentIndex: 0
+    }
   },
   methods: {
-    backClick() {
-      this.$router.go(-1);
+    backClick () {
+      this.$router.go(-1)
     },
-    titleClick(index) {
-      this.currentIndex = index;
-      this.$emit("titleClick", index);
-    },
+    titleClick (index) {
+      this.currentIndex = index
+      this.$emit('titleClick', index)
+    }
   },
   components: {
-    NavBar,
-  },
-};
+    NavBar
+  }
+}
 </script>
 <style scoped>
 .detail-nav {

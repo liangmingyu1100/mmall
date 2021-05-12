@@ -6,23 +6,23 @@
   </swiper>
 </template>
 <script>
-import { Swiper, SwiperItem } from "components/common/swiper";
-import { swiperImageListenermixin } from "common/mixin.js";
+import { Swiper, SwiperItem } from 'components/common/swiper'
+import { swiperImageListenermixin } from 'common/mixin.js'
 export default {
   props: {
     topImages: {
       type: Array,
-      default() {
-        return [];
-      },
-    },
+      default () {
+        return []
+      }
+    }
   },
   components: {
     Swiper,
-    SwiperItem,
+    SwiperItem
   },
-  mixins: [swiperImageListenermixin],
-};
+  mixins: [swiperImageListenermixin]
+}
 </script>
 <style scoped>
 .detail-swiper {

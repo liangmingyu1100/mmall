@@ -17,12 +17,12 @@ export default {
   props: {
     recommends: {
       type: Array,
-      default() {
-        return [];
-      },
-    },
-  },
-};
+      default () {
+        return []
+      }
+    }
+  }
+}
 </script>
 <style scoped>
 #recommend {

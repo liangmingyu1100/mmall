@@ -38,6 +38,11 @@
 </template>
 <script>
 // 公共组件
+// 网络封装
+import { getMultipdata, getGoodsData } from "network/home.js";
+
+import { backTopMixin } from "common/mixin.js";
+
 const NavBar = () => import("components/common/navbar/NavBar");
 const Scroll = () => import("components/common/scroll/Scroll");
 
@@ -49,11 +54,6 @@ const GoodsList = () => import("components/content/goods/GoodsList");
 const HomeSwiper = () => import("./childrenComps/HomeSwiper");
 const HomeRecommendView = () => import("./childrenComps/HomeRecommendView");
 const HomeFeature = () => import("./childrenComps/HomeFeature");
-
-// 网络封装
-import { getMultipdata, getGoodsData } from "network/home.js";
-
-import { backTopMixin } from "common/mixin.js";
 
 export default {
   data() {
@@ -90,7 +90,7 @@ export default {
     NavBar,
     Scroll,
     TabControl,
-    GoodsList, //商品列表
+    GoodsList, // 商品列表
     HomeSwiper, // 轮播图
     HomeRecommendView,
     HomeFeature,
@@ -125,11 +125,10 @@ export default {
     // 上拉加载更多
     loadMore() {
       this.getHomeGoodsData(this.currentType);
-      this.$refs.scroll.refresh(); //重新加载高度
+      this.$refs.scroll.refresh(); // 重新加载高度
     },
     imageLoad() {
       this.tabOffsetTop = this.$refs.tabControl2.$el.offsetTop;
-      console.log(this.tabOffsetTop);
     },
 
     /*
@@ -138,31 +137,27 @@ export default {
     getHomeGoodsData(type) {
       // 获取页码
       const page = this.goods[type].page + 1;
-      console.log(page);
       // 发送获取数据请求
       getGoodsData(type, page).then((res) => {
         // 获取数据后赋值到存放goods的list数组中
         this.goods[type].list.push(...res.data.data.list);
         this.goods[type].page += 1;
 
-        //上拉加载动作结束, 触发下一次的上拉件。
-        this.$refs.scroll.finishPullUp();
+        // 上拉加载动作结束, 触发下一次的上拉件。
+        this.$refs.scroll && this.$refs.scroll.finishPullUp();
       });
     },
   },
   // 声明生命周期钩子函数created
   created() {
     getMultipdata().then((res) => {
-      console.log(res);
+      // console.log(res);
       this.banners = res.data.data.banner.list;
       this.recommends = res.data.data.recommend.list;
     });
     this.getHomeGoodsData("pop");
     this.getHomeGoodsData("new");
     this.getHomeGoodsData("sell");
-  },
-  destroyed() {
-    console.log("home destroyed");
   },
   activated() {
     this.$nextTick(() => {

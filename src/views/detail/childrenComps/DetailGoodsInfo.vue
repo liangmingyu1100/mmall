@@ -19,36 +19,36 @@
 
 <script>
 export default {
-  data() {
+  data () {
     return {
       imgLength: 0,
-      counter: 0,
-    };
+      counter: 0
+    }
   },
   props: {
     detailInfo: {
       type: Object,
-      default() {
-        return {};
-      },
-    },
+      default () {
+        return {}
+      }
+    }
   },
-  create() {},
+  create () {},
   methods: {
     // 解决滑动卡顿问题
-    imageLoad() {
+    imageLoad () {
       if (++this.counter == this.imgLength) {
-        this.$emit("imageLoad");
+        this.$emit('imageLoad')
       }
-    },
+    }
   },
   watch: {
     // 实时更新imageLength的值
-    detailInfo() {
-      this.imgLength = this.detailInfo.detailImage[0].list.length;
-    },
-  },
-};
+    detailInfo () {
+      this.imgLength = this.detailInfo.detailImage[0].list.length
+    }
+  }
+}
 </script>
 <style scoped>
 .goods-info {

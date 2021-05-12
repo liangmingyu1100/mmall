@@ -1,19 +1,19 @@
-const BackTop = () => import("components/content/backtop/BackTop");
+const BackTop = () => import('components/content/backtop/BackTop');
 export const swiperImageListenermixin = {
   data() {
     return {
-      isImageLoad: false,
-    };
+      isImageLoad: false
+    }
   },
   methods: {
     imageLoad() {
       if (!this.isImageLoad) {
-        this.$refs.swiper.handleDom();
-        this.$emit("imageLoad");
-        this.isImageLoad = true;
+        this.$refs.swiper && this.$refs.swiper.handleDom()
+        this.$emit('imageLoad')
+        this.isImageLoad = true
       }
     },
-  },
+  }
 }
 export const backTopMixin = {
   components: {
@@ -21,15 +21,16 @@ export const backTopMixin = {
   },
   data() {
     return {
-      isShowBackTop: false,
+      isShowBackTop: false
     }
   },
   methods: {
     backClick() {
-      this.$refs.scroll.scrollTo(0, 0);
+      this.$refs.scroll.scrollTo(0, 0)
     },
     showBackTop(position) {
-      this.isShowBackTop = -position.y > 1000;
+      this.isShowBackTop = -position.y > 1000
     }
   }
 }
+

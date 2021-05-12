@@ -28,23 +28,23 @@
 </template>
 
 <script>
-import { formatDate } from "common/utils.js";
+import { formatDate } from 'common/utils.js'
 export default {
   props: {
     commentInfo: {
       type: Array,
-      default() {
-        return [];
-      },
-    },
+      default () {
+        return []
+      }
+    }
   },
   filters: {
-    showDate(value) {
-      let date = new Date(value * 1000);
-      return formatDate(date, "yyyy-MM-dd");
-    },
-  },
-};
+    showDate (value) {
+      const date = new Date(value * 1000)
+      return formatDate(date, 'yyyy-MM-dd')
+    }
+  }
+}
 </script>
 
 <style scoped>
