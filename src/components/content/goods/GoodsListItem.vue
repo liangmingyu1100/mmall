@@ -55,7 +55,10 @@ export default {
   width: 100%;
   border-radius: 5px;
 }
-
+.goods-item img[lazy="loading"] {
+  height: 200px;
+  line-height: 200px;
+}
 .goods-info {
   font-size: 12px;
   position: absolute;

@@ -189,7 +189,7 @@ export default {
   height: 100vh;
 }
 .home-nav {
-  background-color: var(--color-tint);
+  background: linear-gradient(270deg, #ff6687, #ff8198);
   color: #fff;
   box-shadow: 0px 1px 1px rgba(100, 100, 100, 0.1);
 }

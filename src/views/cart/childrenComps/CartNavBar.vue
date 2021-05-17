@@ -38,6 +38,6 @@ export default {
 <style scoped>
 .cart-nav-bar {
   background-color: var(--color-tint);
-  color: #fff;
+  color: #333;
 }
 </style>;

@@ -118,4 +118,7 @@ export default {
   border-radius: 15px;
   color: #fff;
 }
+.remove {
+  background-color: #d9534f;
+}
 </style>

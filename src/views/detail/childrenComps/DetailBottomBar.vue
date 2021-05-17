@@ -39,7 +39,7 @@ export default {
   display: flex;
   position: fixed;
   z-index: 9;
-  height: 49px;
+  height: 51px;
   background-color: #fff;
   bottom: -2px;
   width: 100%;
@@ -60,7 +60,7 @@ export default {
   background: url("~assets/img/detail/detail_bottom.png") 0 0/100%;
 }
 .bar-left .service {
-  background-position: 0 -54px;
+  background-position: 0 -52px;
 }
 .bar-left .shop {
   background-position: 0 -98px;
@@ -73,11 +73,19 @@ export default {
   color: #fff;
   line-height: 49px;
 }
+.cart,
+.buy {
+  height: 40px;
+  line-height: 40px;
+  margin: 5px 5px 0;
+  border-radius: 20px;
+  border-radius: 20px;
+}
 .cart {
-  background-color: #fdd526;
-  color: #000000;
+  background: linear-gradient(270deg, #fd662b, #fdbb2b);
+  color: #fff;
 }
 .buy {
-  background-color: #ff6499 !important;
+  background: linear-gradient(270deg, #ff6499, #ff6b9e);
 }
 </style>
